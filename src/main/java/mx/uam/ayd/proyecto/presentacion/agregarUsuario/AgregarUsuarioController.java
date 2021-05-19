@@ -99,8 +99,7 @@ public class AgregarUsuarioController {
     		} catch(Exception ex) {
     			
     			// Agregamos el mensaje de error al modelo
-    			//model.addAttribute("error",ex.getMessage());
-                        model.addAttribute("error","No se selecciono un grupo");
+    			model.addAttribute("error",ex.getMessage());
     			
     			// Redirigimos a la vista de error
     			return "vistaAgregarUsuario/AgregarUsuarioError";
