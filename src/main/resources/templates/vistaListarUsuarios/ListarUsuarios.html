@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tutorial Spring boot</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="estilo.css" />
+    <style>
+
+table
+{
+	border-collapse: collapse;
+}
+th
+{
+	background-color:cyan;
+    
+}
+th:hover
+{
+background-color:yellow;
+}
+
+th,td
+{
+	border: 1px solid black;
+    width:60px;
+    height: 30px;
+}
+
+
+</style>
+
+</head>
+<body>
+ 
+    <table th:if="${not #lists.isEmpty(usuarios)}">
+        <tr>
+            <td>Nombre</td>
+            <td>Apellido</td>
+        </tr>
+        <tr th:each="usuarios : ${usuarios}">
+        <td th:text="${usuarios.nombre}"></td>
+        <td th:text="${usuarios.apellido}"></td>
+        </tr>
+        
+    </table>
+    <div th:if="${#lists.isEmpty(usuarios)}">
+     No hay usuarios registrados!
+</div>
+
+    <form action="regresarMenu" method = "get">
+  		<input type="submit" value="Volver al Menu"/>
+	</form> 
+ </body>
+</html>

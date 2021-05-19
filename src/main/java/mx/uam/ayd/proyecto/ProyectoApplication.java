@@ -1,15 +1,15 @@
 package mx.uam.ayd.proyecto;
 
 import javax.annotation.PostConstruct;
-//hola
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import mx.uam.ayd.proyecto.datos.GrupoRepository;
 import mx.uam.ayd.proyecto.negocio.modelo.Grupo;
-import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipal;
+//import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipal;
 
+//crear aplicaciones de forma rapida en https://start.spring.io/
 /**
  * 
  * Clase principal que arranca la aplicación 
@@ -24,8 +24,8 @@ import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipal;
 @SpringBootApplication
 public class ProyectoApplication {
 
-	@Autowired
-	ControlPrincipal controlPrincipal;
+	//@Autowired
+	//ControlPrincipal controlPrincipal;
 	
 	@Autowired
 	GrupoRepository grupoRepository;
@@ -54,7 +54,7 @@ public class ProyectoApplication {
 		
 		inicializaBD();
 		
-		controlPrincipal.inicia();
+		//controlPrincipal.inicia();
 	}
 	
 	
