@@ -2,6 +2,7 @@ package mx.uam.ayd.proyecto.negocio;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import mx.uam.ayd.proyecto.dto.UsuarioDto;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -55,7 +56,7 @@ class ServicioUsuarioTest {
 		// Prueba 1: corroborar que regresa una lista vacía si no hay usuarios en la BD
 		
 		// en este momento, la invocación a usuarioRepository.findAll() regresa una lista vacía
-		List <Usuario> usuarios = servicio.recuperaUsuarios();
+		List <UsuarioDto> usuarios = servicio.recuperaUsuarios();
 		
 		assertTrue(usuarios.isEmpty());
 

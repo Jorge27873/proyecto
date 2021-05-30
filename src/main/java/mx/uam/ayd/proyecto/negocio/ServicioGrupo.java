@@ -2,6 +2,7 @@ package mx.uam.ayd.proyecto.negocio;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,6 @@ public class ServicioGrupo {
 	 * @return
 	 */
 	public List <Grupo> recuperaGrupos() {
-
-		
-		
 		List <Grupo> grupos = new ArrayList<>();
 		
 		for(Grupo grupo:grupoRepository.findAll()) {
@@ -33,6 +31,18 @@ public class ServicioGrupo {
 		}
 				
 		return grupos;
+	}
+        
+        /**
+	 * 
+	 * Recupera un grupo en base a su id
+	 * 
+	 * @return
+	 */
+	public Grupo recuperaGrupo(long id) {
+		Optional<Grupo> g= grupoRepository.findById(id);
+	        Grupo gr=g.get();
+		return gr;
 	}
 
 }

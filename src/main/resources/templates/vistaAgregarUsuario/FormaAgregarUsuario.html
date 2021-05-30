@@ -1,24 +1,65 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-    <title>Tutorial Spring boot</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="estilo.css" />
-    
-</head>
-<body>
-    <h1>Agregando usuario</h1>
-    <form action="agregarUsuario" method="post">
-	    <label for="nombre">Nombre:</label>
-	    <input type = "text" name = "nombre"><br>
-	    <label for="apellido">Apellido:</label>
-	    <input type = "text" name = "apellido"><br>
-	    <label for="grupo">Selecciona Grupo:</label>
-    <select name="grupo" >
-    <option value="-1">selecciona grupo</option>
-    <option th:each="grupos : ${grupos}" th:value="${grupos.nombre}" th:text="${grupos.nombre}"></option>
-    </select>
-	 <input type="submit" value="Aceptar">
-	</form>
- </body>
+    <head>
+        <title>Tutorial Spring boot</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <!--<link rel="stylesheet" type="text/css" href="estilo.css" />-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>
+            var xmlhttp = new XMLHttpRequest();
+            var url = "http://localhost:8080/v1/usuarios";
+            function agregar()
+            {
+                /*xmlhttp.onreadystatechange=function() {
+                    if (this.readyState == 4 && this.status == 201) {
+                        alert("usuario agregado con exito");
+                    }
+                }
+                xmlhttp.open("POST", url, false);
+                xmlhttp.setRequestHeader("Content-type", "application/json");
+                xmlhttp.send("{\"nombre\":\""+$("#nom").val()+"\",\"apellido\":\""+$("#app").val()+"\",\"edad\":"+$("#edad").val()+",\"grupo\":"+$("#grupo").val()+"}");*/
+                //otra forma de hacerlo:
+                $.ajax({
+                    url: url,
+                    data:"{\"nombre\":\""+$("#nom").val()+"\",\"apellido\":\""+$("#app").val()+"\",\"edad\":"+$("#edad").val()+",\"grupo\":"+$("#grupo").val()+"}" ,
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data){ 
+                    alert("usuario agregado con exito");
+                    $("#nom").val("");
+                    $("#app").val("");
+                    $("#edad").val("");
+                    $("#grupo").val(-1);
+                    },
+                    error: function(data) {
+                    alert("error agregando el usuario "+data.responseText);
+                    }
+                });
+            }
+
+        </script>
+    </head>
+    <body>
+        <h1>Agregando usuario</h1>
+
+        <label for="nombre">Nombre:</label>
+        <input id="nom" type = "text" name = "nombre"><br>
+        <label for="apellido">Apellido:</label>
+        <input id="app" type = "text" name = "apellido"><br>
+        <label for="edad">Edad:</label>
+        <input id="edad" type = "number" min="0" max="120" name = "edad" ><br>
+        <label for="grupo">Selecciona Grupo:</label>
+        <select id="grupo" name="grupo" >
+            <option value="-1">Selecciona grupo</option>
+            <option   th:each="grupos : ${grupos}" th:value="${grupos.idGrupo}" th:text="${grupos.nombre}"></option>
+        </select>
+        <br>
+        <button onclick="agregar()" >Guardar</button>
+        <br>
+        <form action="regresarMenu" method = "get">
+            <input type="submit" value="Volver al Menu"/>
+        </form> 
+
+    </body>
 </html>

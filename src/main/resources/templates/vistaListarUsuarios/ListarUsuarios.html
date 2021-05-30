@@ -1,56 +1,107 @@
 <!DOCTYPE HTML>
 <html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Tutorial Spring boot</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="estilo.css" />
-    <style>
+    <html xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <title>Tutorial Spring boot</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <!--<link rel="stylesheet" type="text/css" href="estilo.css" />-->
+            <style>
 
-table
-{
-	border-collapse: collapse;
-}
-th
-{
-	background-color:cyan;
-    
-}
-th:hover
-{
-background-color:yellow;
-}
+                table
+                {
+                    border-collapse: collapse;
+                }
+                th
+                {
+                    background-color:cyan;
 
-th,td
-{
-	border: 1px solid black;
-    width:60px;
-    height: 30px;
-}
+                }
+                th:hover
+                {
+                    background-color:yellow;
+                }
+
+                th,td
+                {
+                    border: 1px solid black;
+                    width:60px;
+                    height: 30px;
+                }
 
 
-</style>
+            </style>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+            <script>
+                var xmlhttp = new XMLHttpRequest();
+                var url = "http://localhost:8080/v1/usuarios";
+                /*$(document).ready(function(){
+                    console.log("entro a recuperar");
+                    xmlhttp.onreadystatechange=function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            myFunction(this.responseText);
+                        }
+                    }
+                    xmlhttp.open("GET", url, false);
+                    xmlhttp.send();
+                });*/
+                //otra forma de hacerlo:
+                function recupera()
+                {
+                    $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(data){ 
+                        myFunction(data);
+                    },
+                    error: function(data) {
+                        alert("error recuperando la lista de usuarios: "+data.responseText);
+                    }
+                    });
+                }
+                function myFunction(response) {
+                    var arr = response;
+                    var i;
+                    var out = '<table id="tabla">';
+                    out+='<tr><th>Nombre</th><th>Apellido</th><th>Edad</th><th>Actualizar</th><th>Eliminar</th></tr>'
+                    for(i = 0; i < arr.length; i++) {
+                        out += "<tr><td>" +
+                        arr[i].nombre +
+                        "</td><td>" +
+                        arr[i].apellido +
+                        "</td><td>" +
+                        arr[i].edad +
+                        "</td><td> <form action=\"actualizarUsuario\" method = \"post\"><input type=hidden name=\"id\" value="+arr[i].idUsuario+"><input type=\"submit\" value=\"Actualizar\"/></form></td><td><button onclick=\"eliminar("+arr[i].idUsuario+")\">Eliminar</button></td></tr>";
+                    }
+                    out += "</table>";
+                    document.getElementById("id01").innerHTML = out;
+                }
+                function eliminar(id)
+                {
+                    $.ajax({
+                    url: url+"/"+id,
+                    type: 'DELETE',
+                    success: function(data){ 
+                        alert("usuario eliminado con exito: "+data.responseText);
+                        recupera();
+                    },
+                    error: function(data) {
+                        alert("error eliminando al usuario: "+data.responseText);
+                    }
+                    });
 
-</head>
-<body>
- 
-    <table th:if="${not #lists.isEmpty(usuarios)}">
-        <tr>
-            <td>Nombre</td>
-            <td>Apellido</td>
-        </tr>
-        <tr th:each="usuarios : ${usuarios}">
-        <td th:text="${usuarios.nombre}"></td>
-        <td th:text="${usuarios.apellido}"></td>
-        </tr>
-        
-    </table>
-    <div th:if="${#lists.isEmpty(usuarios)}">
-     No hay usuarios registrados!
-</div>
+                }
+                $(document).ready(recupera());
+            </script>
+        </head>
+        <body>
 
-    <form action="regresarMenu" method = "get">
-  		<input type="submit" value="Volver al Menu"/>
-	</form> 
- </body>
-</html>
+
+            <div id="id01">
+
+            </div>
+
+            <form action="regresarMenu" method = "get">
+                <input type="submit" value="Volver al Menu"/>
+            </form> 
+        </body>
+    </html>
