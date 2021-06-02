@@ -1,22 +1,12 @@
 package mx.uam.ayd.proyecto.datos;
 
-import java.util.List;
-
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import mx.uam.ayd.proyecto.negocio.modelo.Usuario;
+import mx.uam.ayd.proyecto.negocio.Modelo.Usuario;
 
-/**
- *
- * Repositorio para usuarios
- *
- * @author humbertocervantes
- *
- */
-public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
+@Repository
+public interface UsuarioRepository extends CrudRepository <Usuario, Long> {
 
-    public Usuario findByNombreAndApellido(String nombre, String apellido);
-
-    public List<Usuario> findByEdadBetween(int edad1, int edad2);
-
+    Usuario findBynombreDeUsuario(String nombre);
 }

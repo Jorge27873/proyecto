@@ -1,41 +1,28 @@
 package mx.uam.ayd.proyecto.dto;
 
 import lombok.Data;
-import mx.uam.ayd.proyecto.negocio.modelo.Usuario;
+import mx.uam.ayd.proyecto.negocio.Modelo.Usuario;
 
-/**
- * DTO de usuarios
- * 
- */
+import java.util.List;
+
 @Data
 public class UsuarioDto {
-	
-	private long idUsuario;
+    private long idUsuario;
+    private String nombreDeUsuario;
+    private String descripcion;
+    private String correo;
+    private String passwrd;
+    private List<Long> idsPublicaciones;
 
-	private String nombre; // No vacío, no numérico
-	
-	private String apellido; // No vacío
-	
-	private int edad; // Rango entre 1 - 120
-	
-	private long grupo; // No vacío
-		
-	/**
-	 * Este método permite generar un DTO a partir de la entidad
-	 * nota: es un método de clase y no se necesita un objeto
-	 * para invocarlo. Se invoca como UsuarioDto.crea(param)
-           * @param usuario la entidad
-	 * @return dto obtenido a partir de la entidad
-	 */
-	public static UsuarioDto creaDto(Usuario usuario) {
-		UsuarioDto dto = new UsuarioDto();
+    public static UsuarioDto creaUsuario(Usuario usuario){
+        UsuarioDto usuarioDto = new UsuarioDto();
 
-		dto.setIdUsuario(usuario.getIdUsuario());
-		dto.setNombre(usuario.getNombre());
-		dto.setApellido(usuario.getApellido());
-		dto.setEdad(usuario.getEdad());
-		dto.setGrupo(usuario.getGrupo().getIdGrupo());
-
-		return dto;
-	}
+        usuarioDto.setIdUsuario(usuario.getIdUsuario());
+        usuarioDto.setNombreDeUsuario(usuario.getNombreDeUsuario());
+        usuarioDto.setDescripcion(usuario.getDescripcion());
+        usuarioDto.setCorreo(usuario.getCorreo());
+        usuarioDto.setPasswrd(usuario.getPasswrd());
+        usuarioDto.setIdsPublicaciones(usuario.recuperaIds());
+        return usuarioDto;
+    }
 }

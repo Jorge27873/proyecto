@@ -1,80 +1,11 @@
 package mx.uam.ayd.proyecto;
 
-import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 
-import mx.uam.ayd.proyecto.datos.GrupoRepository;
-import mx.uam.ayd.proyecto.negocio.modelo.Grupo;
-//import mx.uam.ayd.proyecto.presentacion.principal.ControlPrincipal;
-
-//crear aplicaciones de forma rapida en https://start.spring.io/
-/**
- * 
- * Clase principal que arranca la aplicación 
- * construida usando el principio de 
- * inversión de control
- * 
- * Ejemplo de cambio en Rama
- * 
- * @author humbertocervantes
- *
- */
 @SpringBootApplication
 public class ProyectoApplication {
-
-	//@Autowired
-	//ControlPrincipal controlPrincipal;
-	
-	@Autowired
-	GrupoRepository grupoRepository;
-	
-	/**
-	 * 
-	 * Método principal
-	 * 
-	 */
-	public static void main(String[] args) {
-		
-		SpringApplicationBuilder builder = new SpringApplicationBuilder(ProyectoApplication.class);
-
-		builder.headless(false);
-
-		builder.run(args);
-	}
-
-	/**
-	 * Metodo que arranca la aplicacion
-	 * inicializa la bd y arranca el controlador
-	 * otro comentario
-	 */
-	@PostConstruct
-	public void inicia() {
-		
-		inicializaBD();
-		
-		//controlPrincipal.inicia();
-	}
-	
-	
-	/**
-	 * 
-	 * Inicializa la BD con datos
-	 * 
-	 * 
-	 */
-	public void inicializaBD() {
-		
-		// Vamos a crear los dos grupos de usuarios
-		
-		Grupo grupoAdmin = new Grupo();
-		grupoAdmin.setNombre("Administradores");
-		grupoRepository.save(grupoAdmin);
-		
-		Grupo grupoOps = new Grupo();
-		grupoOps.setNombre("Operadores");
-		grupoRepository.save(grupoOps);
-				
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ProyectoApplication.class, args);
+    }
 }
