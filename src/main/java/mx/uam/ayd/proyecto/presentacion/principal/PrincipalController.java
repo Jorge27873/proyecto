@@ -20,11 +20,11 @@ public class PrincipalController {
 	 * @return
 	 */
 	@RequestMapping(value = "/")
-    public String getAgregarUsuario(Model model) {
+    public String vistaPrincipal() {
         
 			// Redirige a la vista principal
-    		return "vistaPrincipal/Principal";
-    	
+    		//return "vistaPrincipal/Principal";
+    		return "vistaUsuarios/vistaUsuarios";
     }
 
 
