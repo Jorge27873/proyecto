@@ -25,7 +25,7 @@ public class Usuario {
     private String passwrd;
 
     @OneToMany(targetEntity = Publicacion.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "idPublicacion")
+    @JoinColumn(name = "idUsuario")
     private final List<Publicacion> publicaciones = new ArrayList<>();
 
     /**
