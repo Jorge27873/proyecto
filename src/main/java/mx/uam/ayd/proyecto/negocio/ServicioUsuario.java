@@ -50,11 +50,12 @@ public class ServicioUsuario {
      * Muestra un usuario por su nombre
      *
      * @param id nombre del usuario a buscar
+     * @param contra la contraseña del usuario
      * @return el usuario encontrado
      */
-    public UsuarioDto muestraUsuarioNombre(String id){
+    public UsuarioDto muestraUsuarioNombre(String id, UsuarioDto contra){
         Usuario usuario = repositorioUsuario.findBynombreDeUsuario(id);
-        if (usuario == null){throw new IllegalArgumentException("Usuario inexistente");}
+        if (usuario == null || !usuario.getPasswrd().equals(contra.getPasswrd())){throw new IllegalArgumentException("Usuario inexistente o contraseña incorrecta");}
         return UsuarioDto.creaUsuario(usuario);
     }
 
