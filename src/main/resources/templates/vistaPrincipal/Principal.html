@@ -11,6 +11,11 @@
     <link  th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link  th:href="@{/css/login.css}" rel="stylesheet">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+
+
 
   </head>
 
@@ -19,12 +24,41 @@
       <svg  width="72" height="70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
       <h1 class="h3 mb-3 font-weight-normal">Foto Uami </h1>
       <label for="inputEmail" class="sr-only">Nombre de Usuario</label>
-      <input type="text" id="inputEmail" class="form-control" placeholder="Nombre de Usuario" required autofocus>
+      <input type="text" id="nombreUsuario" class="form-control" placeholder="Nombre de Usuario" required autofocus>
       <label for="inputPassword" class="sr-only">Contraseña</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
-      <button class="btn btn-lg btn-dark btn-block" type="submit">Iniciar sesion</button>
+      <input type="password" id="Password" class="form-control" placeholder="Contraseña" required>
+      <button class="btn btn-lg btn-dark btn-block" onclick="Login()">Iniciar sesion</button>
       <a class="btn btn-lg btn-dark btn-block" href="#">Registrate</a>
     </form>
+
+		<form action="vistaUsuarios" methood="get" id="enviaid">
+			<input type="hidden" name="id" id="id" value="1">
+		</form>
+        <script>
+
+    function Login(){
+        var url = "http://localhost:8080/v1/usuarios/"+$("#nombreUsuario").val();
+		console.log("Iniciando peticuon a "+url);
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(data){
+
+                        alert("Usuario Correcto");
+                        $("#id").value = data.idUsuario ;
+
+                   		$("#enviaid").submit();
+                    },
+                    error: function(data) {
+                        alert("Usuario no encontrado"+data.responseText);
+                    }
+            });
+    }
+
+
+    </script>
   </body>
  
 </html>
