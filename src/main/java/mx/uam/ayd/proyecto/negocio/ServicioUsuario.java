@@ -67,7 +67,7 @@ public class ServicioUsuario {
      */
     public List<PublicacionDto> recuperaPosts(long id){
         Optional<Usuario> usuarioOpt = repositorioUsuario.findById(id);
-        if (usuarioOpt.isEmpty()){throw new IllegalArgumentException("Usuario inexistente");}
+        if (!usuarioOpt.isPresent()){throw new IllegalArgumentException("Usuario inexistente");}
         Usuario usuario = usuarioOpt.get();
         List<PublicacionDto> publicaciones = new ArrayList<>();
         for (Publicacion publicacion:usuario.getPublicaciones()) {
@@ -78,10 +78,10 @@ public class ServicioUsuario {
 
     public PublicacionDto recuperaPost(long id,long idPub){
         Optional<Usuario> usuarioOpt = repositorioUsuario.findById(id);
-        if (usuarioOpt.isEmpty()){throw new IllegalArgumentException("Usuario inexistente");}
+        if (!usuarioOpt.isPresent()){throw new IllegalArgumentException("Usuario inexistente");}
         Usuario usuario = usuarioOpt.get();
         Optional<Publicacion> publicacionOpt = repositorioPublicacion.findById(idPub);
-        if (publicacionOpt.isEmpty()){throw new IllegalArgumentException("Publicacion inexistente");}
+        if (!publicacionOpt.isPresent()){throw new IllegalArgumentException("Publicacion inexistente");}
         Publicacion publicacion = publicacionOpt.get();
         if (usuario.getIdUsuario() != publicacion.getUsuario().getIdUsuario()){ throw new IllegalArgumentException("El usuario no tiene esta publicacion");}
         return PublicacionDto.creaPublicacionDto(publicacion);
@@ -90,7 +90,7 @@ public class ServicioUsuario {
     public PublicacionDto agregaPublicacion(long id, PublicacionDto publicacionDto){
         //revisamos si el usuario existe
         Optional<Usuario> usuarioOpt = repositorioUsuario.findById(id);
-        if (usuarioOpt.isEmpty()){throw new IllegalArgumentException("Usuario inexistente");}
+        if (!usuarioOpt.isPresent()){throw new IllegalArgumentException("Usuario inexistente");}
         Usuario usuario = usuarioOpt.get();
         Publicacion publicacion = new Publicacion();
         publicacion.setUsuario(usuario);
@@ -105,10 +105,10 @@ public class ServicioUsuario {
     public void borraPublicacion(long id, long idPost){
         //revisamos si el usuario existe
         Optional<Usuario> usuarioOpt = repositorioUsuario.findById(id);
-        if (usuarioOpt.isEmpty()){throw new IllegalArgumentException("Usuario inexistente");}
+        if (!usuarioOpt.isPresent()){throw new IllegalArgumentException("Usuario inexistente");}
         //revisamos si el post existe
         Optional<Publicacion> pubOpt = repositorioPublicacion.findById(idPost);
-        if (pubOpt.isEmpty()){throw new IllegalArgumentException("Publicacion inexistente");}
+        if (!pubOpt.isPresent()){throw new IllegalArgumentException("Publicacion inexistente");}
         Usuario usuario = usuarioOpt.get();
         Publicacion publicacion = pubOpt.get();
         usuario.removePublicacion(publicacion);
@@ -119,10 +119,10 @@ public class ServicioUsuario {
     public void actualizaPublicacion(long id, long idPost, PublicacionDto publicacionDto){
         //revisamos si el usuario existe
         Optional<Usuario> usuarioOpt = repositorioUsuario.findById(id);
-        if (usuarioOpt.isEmpty()){throw new IllegalArgumentException("Usuario inexistente");}
+        if (!usuarioOpt.isPresent()){throw new IllegalArgumentException("Usuario inexistente");}
         //revisamos si el post existe
         Optional<Publicacion> pubOpt = repositorioPublicacion.findById(idPost);
-        if (pubOpt.isEmpty()){throw new IllegalArgumentException("Publicacion inexistente");}
+        if (!pubOpt.isPresent()){throw new IllegalArgumentException("Publicacion inexistente");}
         Usuario usuario = usuarioOpt.get();
         Publicacion publicacion = pubOpt.get();
         usuario.removePublicacion(publicacion);
