@@ -128,7 +128,7 @@ public class ServicioUsuario {
         usuario.removePublicacion(publicacion);
         publicacion.setLocacion(publicacionDto.getLocacion());
         publicacion.setDescripcion(publicacionDto.getDescripcion());
-        usuario.addPublicacion(publicacion);
+        //usuario.addPublicacion(publicacion);
         repositorioPublicacion.save(publicacion);
         repositorioUsuario.save(usuario);
     }
