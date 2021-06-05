@@ -24,7 +24,7 @@ public class PrincipalController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/")
+	//@RequestMapping(value = "/")
     public String vistaPrincipal(Model model) {
         
 			// Redirige a la vista principal
@@ -33,7 +33,7 @@ public class PrincipalController {
     }
 	
 	
-	@RequestMapping(value = "/vistaUsuarios" , method = RequestMethod.GET)
+	//@RequestMapping(value = "/vistaUsuarios" , method = RequestMethod.GET)
     public String vistaUsuarios(
     		@RequestParam(value="id", required=true) long id,
     		Model model) {
@@ -47,4 +47,25 @@ public class PrincipalController {
 		return "vistaUsuarios/vistaUsuarios";
 
 	}
+    /**
+	 * Este método está mapeado a la raíz del sitio
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/")
+    public String getAgregarUsuario(Model model) {
+        
+			// Redirige a la vista principal
+    		return "VistaAgregarUs/AgregarUsuario";
+    	
+    }
+	@RequestMapping(value = "/vistaUsuarios")
+    public String vistaUsuarios() {
+        
+			// Redirige a la vista principal
+    		return "vistaUsuarios/Principal";
+    	
+    }
+    
 }

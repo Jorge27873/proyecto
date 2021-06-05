@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Agregar Usuario</title>
+
+    <!-- Bootstrap core CSS -->
+   
+    <link  th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link  th:href="@{/StCSS/style.css}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>
+            var xmlhttp = new XMLHttpRequest();
+            var url = "http://localhost:8080/v1/usuarios";
+            function agregar()
+            {
+                $.ajax({
+                    url: url,
+                    data:"{\"nombreDeUsuario\":\""+$("#nombreDeUsuario").val()+"\",\"descripcion\":\""+$("#descripcion").val()+"\",\"correo\":"+$("#correo").val()+",\"passwrd\":"+$("#passwrd").val()+"}" ,
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data){ 
+                    alert("usuario agregado con exito");
+                    $("#nombreDeUsuario").val("");
+                    $("#descripcion").val("");
+                    $("#correo").val("");
+                    $("#passwrd").val("");
+             },
+                    error: function(data) {
+                    alert("error agregando el usuario "+data.responseText);
+                    }
+                });
+            }
+
+        </script>
+
+  </head>
+  <font face="Comic Sans MS,arial,verdana" size=20>AGREGAR USUARIO</font>
+  <body class="text-center">
+   <form class="form-signin">
+      <label for="nombreDeUsuario" class="sr-only">Nombre</label><br>
+      <input type="text" id="nombreDeUsuario" class="form-control" placeholder="Nombre" required autofocus>
+      <label for="descripcion" class="sr-only">Descripcion</label><br>
+      <input type="text" id="descripcion" class="form-control" placeholder="Decripción" required autofocus>
+      <label for="correo" class="sr-only">Correo</label><br>
+      <input type="text" id="correo" class="form-control" placeholder="Correo" required autofocus>
+      <label for="passwrd" class="sr-only">Contraseña</label><br>
+      <input type="password" id="passwrd" class="form-control" placeholder="Passwrd" required><br>
+      <button class="btn btn-lg btn-dark btn-block" onclick="agregar()">Registrar</button>
+   </form>   
+  </body>
+ 
+</html>
