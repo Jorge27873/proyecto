@@ -33,7 +33,7 @@ public class PrincipalController {
     }
 	
 	
-	//@RequestMapping(value = "/vistaUsuarios" , method = RequestMethod.GET)
+	@RequestMapping(value = "/vistaUsuarios" , method = RequestMethod.GET)
     public String vistaUsuarios(
     		@RequestParam(value="id", required=true) long id,
     		Model model) {

@@ -29,23 +29,28 @@
 
     <script>
     function Login(){
-        var url = "http://localhost:8080/v1/usuarios/"+$("#nombreUsuario").val();
-		console.log("Iniciando peticion a "+url);
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function(data){
 
-                        alert("Usuario Correcto");
+
+    var url = "http://localhost:8080/v1/login/"+$("#nombreUsuario").val();
+    var pass = $("#Password").val();
+           
+
+       $.ajax({
+        	   
+               url: url,
+               data:JSON.stringify({"passwrd": pass }),
+               type: 'POST',
+               contentType: 'application/json',
+               success: function(data){
                         $("#id").value = data.idUsuario;
                    		$("#enviaid").submit();
                     },
                     error: function(data) {
-                        alert("Usuario no encontrado"+data.responseText);
+                        alert("Los datos son incorrectos \n Intentalo de nuevo");
                     }
             });
+
+
     }
     </script>
   </body>

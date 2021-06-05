@@ -27,7 +27,7 @@ public class UsuarioRest {
      * @param nombreUsuario el nombre del usuario
      * @return el usuario encontrado
      */
-    @GetMapping(path = "/usuarios/{nombreUsuario}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/login/{nombreUsuario}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UsuarioDto> findUserById(@PathVariable("nombreUsuario") String nombreUsuario,@RequestBody UsuarioDto contra){
         try {
             UsuarioDto usuarioDto = servicioUsuario.muestraUsuarioNombre(nombreUsuario,contra);
@@ -42,6 +42,7 @@ public class UsuarioRest {
             }
             throw new ResponseStatusException(status, e.getMessage());
         }
+        
     }
 
     /**
