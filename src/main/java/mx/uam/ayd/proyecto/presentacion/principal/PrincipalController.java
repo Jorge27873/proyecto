@@ -24,7 +24,7 @@ public class PrincipalController {
 	 * @param model
 	 * @return
 	 */
-	//@RequestMapping(value = "/")
+	@RequestMapping(value = "/")
     public String vistaPrincipal(Model model) {
         
 			// Redirige a la vista principal
@@ -52,7 +52,7 @@ public class PrincipalController {
 	 * 
 	 * @param model
 	 * @return
-	 */
+	
 	@RequestMapping(value = "/")
     public String getAgregarUsuario(Model model) {
         
@@ -67,5 +67,6 @@ public class PrincipalController {
     		return "vistaUsuarios/Principal";
     	
     }
+     */
     
 }
