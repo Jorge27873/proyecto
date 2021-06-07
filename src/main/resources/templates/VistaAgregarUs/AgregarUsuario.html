@@ -17,7 +17,7 @@
             {
                 $.ajax({
                     url: url,
-                    data:"{\"nombreDeUsuario\":\""+$("#nombreDeUsuario").val()+"\",\"descripcion\":\""+$("#descripcion").val()+"\",\"correo\":"+$("#correo").val()+",\"passwrd\":"+$("#passwrd").val()+"}" ,
+                    data:JSON.stringify({"nombreDeUsuario": $("#nombreDeUsuario").val(), "descripcion": $("#descripcion").val(),"correo": $("#correo").val(),"passwrd": $("#passwrd").val() }) ,
                     type: 'POST',
                     dataType: 'json',
                     contentType: 'application/json',

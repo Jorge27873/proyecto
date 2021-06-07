@@ -47,19 +47,22 @@ public class PrincipalController {
 		return "vistaUsuarios/vistaUsuarios";
 
 	}
-    /**
+	
+	 /**
 	 * Este método está mapeado a la raíz del sitio
 	 * 
 	 * @param model
 	 * @return
-	
-	@RequestMapping(value = "/")
+	*/
+	@RequestMapping(value = "/signup")
     public String getAgregarUsuario(Model model) {
         
 			// Redirige a la vista principal
     		return "VistaAgregarUs/AgregarUsuario";
     	
     }
+	 
+	 /**
 	@RequestMapping(value = "/vistaUsuarios")
     public String vistaUsuarios() {
         
