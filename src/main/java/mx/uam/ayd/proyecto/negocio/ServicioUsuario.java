@@ -47,15 +47,27 @@ public class ServicioUsuario {
     }
 
     /**
-     * Muestra un usuario por su nombre
+     * Inicia sesion
      *
      * @param id nombre del usuario a buscar
      * @param contra la contraseña del usuario
      * @return el usuario encontrado
      */
-    public UsuarioDto muestraUsuarioNombre(String id, UsuarioDto contra){
+    public UsuarioDto iniciaSesion(String id, UsuarioDto contra){
         Usuario usuario = repositorioUsuario.findBynombreDeUsuario(id);
         if (usuario == null || !usuario.getPasswrd().equals(contra.getPasswrd())){throw new IllegalArgumentException("Usuario inexistente o contraseña incorrecta");}
+        return UsuarioDto.creaUsuario(usuario);
+    }
+
+    /**
+     * Recupera un usuario por su nombre
+     *
+     * @param id el nombre de usuario
+     * @return el usuario
+     */
+    public UsuarioDto recuperaUsuario(String id){
+        Usuario usuario = repositorioUsuario.findBynombreDeUsuario(id);
+        if (usuario == null){throw new IllegalArgumentException("Usuario inexistente o contraseña incorrecta");}
         return UsuarioDto.creaUsuario(usuario);
     }
 
@@ -132,4 +144,6 @@ public class ServicioUsuario {
         repositorioPublicacion.save(publicacion);
         repositorioUsuario.save(usuario);
     }
+
+
 }
