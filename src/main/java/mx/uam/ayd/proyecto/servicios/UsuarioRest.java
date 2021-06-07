@@ -26,7 +26,7 @@ public class UsuarioRest {
     /**
      * Recupera un usuario a partir de su nombre de usuario
      *
-     * @param nombreUsuario el nombre del usuario
+     * @param id el id del usuario
      * @return el usuario encontrado
      */
     @GetMapping(path = "/usuarios/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
