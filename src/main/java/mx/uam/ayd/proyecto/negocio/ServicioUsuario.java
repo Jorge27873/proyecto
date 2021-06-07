@@ -65,8 +65,8 @@ public class ServicioUsuario {
      * @param id el nombre de usuario
      * @return el usuario
      */
-    public UsuarioDto recuperaUsuario(String id){
-        Usuario usuario = repositorioUsuario.findBynombreDeUsuario(id);
+    public UsuarioDto recuperaUsuario(long id){
+        Usuario usuario = repositorioUsuario.findById(id);
         if (usuario == null){throw new IllegalArgumentException("Usuario inexistente o contraseña incorrecta");}
         return UsuarioDto.creaUsuario(usuario);
     }

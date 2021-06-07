@@ -29,10 +29,10 @@ public class UsuarioRest {
      * @param nombreUsuario el nombre del usuario
      * @return el usuario encontrado
      */
-    @GetMapping(path = "/login/{nombreUsuario}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UsuarioDto> findUserById(@PathVariable("nombreUsuario") String nombreUsuario){
+    @GetMapping(path = "/usuarios/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UsuarioDto> findUserById(@PathVariable("id") long id){
         try {
-            UsuarioDto usuarioDto = servicioUsuario.recuperaUsuario(nombreUsuario);
+            UsuarioDto usuarioDto = servicioUsuario.recuperaUsuario(id);
             return ResponseEntity.status(HttpStatus.OK).body(usuarioDto);
         }
         catch (Exception e){
