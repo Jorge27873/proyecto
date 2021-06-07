@@ -21,16 +21,18 @@ public class UsuarioRest {
     @Autowired
     ServicioUsuario servicioUsuario;
 
+    //  ******************** METODOS GET ********************
+
     /**
      * Recupera un usuario a partir de su nombre de usuario
      *
      * @param nombreUsuario el nombre del usuario
      * @return el usuario encontrado
      */
-    @PostMapping(path = "/login/{nombreUsuario}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UsuarioDto> findUserById(@PathVariable("nombreUsuario") String nombreUsuario,@RequestBody UsuarioDto contra){
+    @GetMapping(path = "/login/{nombreUsuario}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UsuarioDto> findUserById(@PathVariable("nombreUsuario") String nombreUsuario){
         try {
-            UsuarioDto usuarioDto = servicioUsuario.muestraUsuarioNombre(nombreUsuario,contra);
+            UsuarioDto usuarioDto = servicioUsuario.recuperaUsuario(nombreUsuario);
             return ResponseEntity.status(HttpStatus.OK).body(usuarioDto);
         }
         catch (Exception e){
@@ -42,7 +44,6 @@ public class UsuarioRest {
             }
             throw new ResponseStatusException(status, e.getMessage());
         }
-        
     }
 
     /**
@@ -92,7 +93,30 @@ public class UsuarioRest {
         }
     }
 
-    /*********** METODOS POST ************/
+    //  ******************** METODOS POST ********************
+
+    /**
+     * Recupera un usuario a partir de su nombre de usuario y contraseña
+     *
+     * @param nombreUsuario el nombre del usuario
+     * @return el usuario encontrado
+     */
+    @PostMapping(path = "/login/{nombreUsuario}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UsuarioDto> login(@PathVariable("nombreUsuario") String nombreUsuario,@RequestBody UsuarioDto contra){
+        try {
+            UsuarioDto usuarioDto = servicioUsuario.iniciaSesion(nombreUsuario,contra);
+            return ResponseEntity.status(HttpStatus.OK).body(usuarioDto);
+        }
+        catch (Exception e){
+            HttpStatus status;
+            if(e instanceof IllegalArgumentException) {
+                status = HttpStatus.NOT_FOUND;
+            } else {
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+            throw new ResponseStatusException(status, e.getMessage());
+        }
+    }
 
     /**
      * crea una nueva publicacion
@@ -101,7 +125,7 @@ public class UsuarioRest {
      * @param nuevaPublicacion la publicacion nueva
      * @return la publicacion creada
      */
-    @PostMapping(path = "/usuarios/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/usuarios/{id}/publicaciones", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PublicacionDto> addPublicacion(@PathVariable("id") Long id,@RequestBody PublicacionDto nuevaPublicacion){
         try {
             PublicacionDto publicacionDto = servicioUsuario.agregaPublicacion(id,nuevaPublicacion);
@@ -140,7 +164,7 @@ public class UsuarioRest {
         }
     }
 
-    /************ METODOS DELETE ************/
+    //  ******************** METODOS DELETE ********************
 
     /**
      * Borra un post de un usuario
@@ -167,7 +191,7 @@ public class UsuarioRest {
         }
     }
 
-    /************ METODOS PUT ************/
+    //  ******************** METODOS PUT ********************
 
     @PutMapping(path = "usuarios/{id}/publicaciones/{id1}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updatePost(@PathVariable("id") Long id,@PathVariable("id1") Long idPost,@RequestBody PublicacionDto nuevaPublicacion){
