@@ -12,6 +12,8 @@
 
     <!-- Custom styles for this template -->
     <link th:href="@{/album.css}" rel="stylesheet">
+    
+    
   </head>
 
   <body>
@@ -19,7 +21,29 @@
   <script>
     var searchParams = new URLSearchParams(window.location.search);
     var id = searchParams.get('id');
-    console.log(id);
+
+    window.onload = function() {
+        var url = "http://localhost:8080/v1/usuarios/"+id;
+        console.log("cargando fubncion....");
+
+        $.ajax({
+
+               url: url,
+               type: 'GET',
+               contentType: 'application/json',
+               success: function(data){
+                        $("#nombre").value = data.nombreDeUsuario;
+                   		$("#des").value = data.descripcion;
+
+                    },
+                    error: function(data) {
+                        alert("Error al recuperar los datos del usuario");
+                    }
+            });
+    };
+
+
+
   </script>
 
     <header>
@@ -58,8 +82,8 @@
 
       <section class="jumbotron text-center">
         <div class="container">
-          <h1 class="jumbotron-heading">Album example</h1>
-          <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+          <h1 class="jumbotron-heading" id="nombre">Album example</h1>
+          <p class="lead text-muted" id="des">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
           <p>
             <a href="#" class="btn btn-primary my-2">Main call to action</a>
             <a href="#" class="btn btn-secondary my-2">Secondary action</a>
@@ -271,8 +295,8 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    
     <script src="assets/js/vendor/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="assets/js/vendor/holder.min.js"></script>
