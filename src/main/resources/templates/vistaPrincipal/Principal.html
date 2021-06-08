@@ -43,6 +43,7 @@
                contentType: 'application/json',
                success: function(data){
                         $("#id").value = data.idUsuario;
+                        alert("Bienvenido "+data.idUsuario);
                    		$("#enviaid").submit();
                     },
                     error: function(data) {

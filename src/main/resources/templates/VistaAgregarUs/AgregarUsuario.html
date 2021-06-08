@@ -22,12 +22,10 @@
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data){ 
-                    alert("usuario agregado con exito");
-                    $("#nombreDeUsuario").val("");
-                    $("#descripcion").val("");
-                    $("#correo").val("");
-                    $("#passwrd").val("");
-             },
+                        console.log("ya lo agregue");
+                        alert("usuario agregado con exito");
+                        
+                    },
                     error: function(data) {
                     alert("error agregando el usuario "+data.responseText);
                     }
@@ -37,18 +35,18 @@
         </script>
 
   </head>
-  <font face="Comic Sans MS,arial,verdana" size=20>AGREGAR USUARIO</font>
+  <font face="Comic Sans MS,arial,verdana" size=20>AGREGAR NUEVO USUARIO</font>
   <body class="text-center">
    <form class="form-signin">
       <label for="nombreDeUsuario" class="sr-only">Nombre</label><br>
       <input type="text" id="nombreDeUsuario" class="form-control" placeholder="Nombre" required autofocus>
       <label for="descripcion" class="sr-only">Descripcion</label><br>
-      <input type="text" id="descripcion" class="form-control" placeholder="Decripción" required autofocus>
+      <input type="text" id="descripcion" class="form-control" placeholder="Descripción" required autofocus>
       <label for="correo" class="sr-only">Correo</label><br>
       <input type="text" id="correo" class="form-control" placeholder="Correo" required autofocus>
       <label for="passwrd" class="sr-only">Contraseña</label><br>
       <input type="password" id="passwrd" class="form-control" placeholder="Passwrd" required><br>
-      <button class="btn btn-lg btn-dark btn-block" onclick="agregar()">Registrar</button>
+      <button onclick="agregar()" class="btn btn-lg btn-dark btn-block" >Registrar</button>
    </form>   
   </body>
  
