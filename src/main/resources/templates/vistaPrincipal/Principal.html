@@ -7,6 +7,7 @@
     <!-- Bootstrap core CSS -->
     <link  th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link  th:href="@{/css/login.css}" rel="stylesheet">
+    <link  th:href="@{/css/form.css}" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   </head>
@@ -14,7 +15,7 @@
   <body class="text-center">
     <form class="form-signin">
       <svg  width="72" height="70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-      <h1 class="h3 mb-3 font-weight-normal">Foto Uami </h1>
+      <h1 class="h3 mb-3 font-weight-normal">InstaUami</h1>
       <label for="inputEmail" class="sr-only">Nombre de Usuario</label>
       <input type="text" id="nombreUsuario" class="form-control" placeholder="Nombre de Usuario" required autofocus>
       <label for="inputPassword" class="sr-only">Contraseña</label>
@@ -28,22 +29,16 @@
     </form>
 
     <script>
-    function Login(){
-
-
-    var url = "http://localhost:8080/v1/login/"+$("#nombreUsuario").val();
-    var pass = $("#Password").val();
-           
+    function Login(){        
 
        $.ajax({
         	   
-               url: url,
-               data:JSON.stringify({"passwrd": pass }),
+               url: "http://localhost:8080/v1/login/"+$("#nombreUsuario").val(),
+               data:JSON.stringify({"passwrd": $("#Password").val() }),
                type: 'POST',
                contentType: 'application/json',
                success: function(data){
                         $("#id").value = data.idUsuario;
-                        alert("Bienvenido "+data.idUsuario);
                    		$("#enviaid").submit();
                     },
                     error: function(data) {

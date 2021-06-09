@@ -3,12 +3,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Agregar Usuario</title>
+    <title>Registrate</title>
 
     <!-- Bootstrap core CSS -->
    
     <link  th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link  th:href="@{/StCSS/style.css}" rel="stylesheet">
+    <link  th:href="@{/css/login.css}" rel="stylesheet">
+    <link  th:href="@{/css/form.css}" rel="stylesheet">
+    <!--<link  th:href="@{/StCSS/style.css}" rel="stylesheet"> -->
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -18,22 +20,22 @@
 
 
 
-           function agregar()
+    function agregar()
            {
              console.log("ya entre");
-       
+
     var form = $('#fileUploadForm')[0];
         var data = new FormData(form);
         console.log(form);
-        
-      
-        
+
+
+
         var jsonDataObj = JSON.stringify({"nombreDeUsuario": $("#nombreDeUsuario").val(), "descripcion": $("#descripcion").val(),"correo": $("#correo").val(),"passwrd": $("#passwrd").val() });
         data.append("jsondata", jsonDataObj);
         $("#btnSubmit").prop("disabled", true);
         $.ajax({
+        	enctype: 'multipart/form-data',
             type: "POST",
-            enctype: 'multipart/form-data',
             url: "http://localhost:8080/v1/usuarios",
             data: data,
             processData: false,
@@ -43,14 +45,14 @@
             success: function (data) {
 
               console.log("ya lo agregue a bdd");
-                        alert("usuario agregado con exito");
-                
-                
+              alert("usuario agregado con exito");
+
+
 
             },
             error: function (e) {
                   alert("error agregando el usuario "+data.responseText);
-               
+
 
             }
         });
@@ -60,28 +62,28 @@
         </script>
 
   </head>
-  <font face="Comic Sans MS,arial,verdana" size=20>AGREGAR NUEVO USUARIO</font>
+
   <body class="text-center">
+
       <form class="form-signin" enctype="multipart/form-data">
-      <label for="nombreDeUsuario" class="sr-only">Nombre</label><br>
+      <h1 class="h3 mb-3 font-weight-normal">Registrate<h1>
+
       <input type="text" id="nombreDeUsuario" class="form-control" placeholder="Nombre" required autofocus>
-      <label for="descripcion" class="sr-only">Descripcion</label><br>
-      <input type="text" id="descripcion" class="form-control" placeholder="Descripción" required autofocus>
-      <label for="correo" class="sr-only">Correo</label><br>
-      <input type="text" id="correo" class="form-control" placeholder="Correo" required autofocus>
-      </form>
-      <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
-			<div class="form-group">
-				<input type="file" class="form-control-file border" name="file">
-			</div>
+
+      <input type="text" id="descripcion" class="form-control" placeholder="Descripción" required >
+
+      <input type="text" id="correo" class="form-control" placeholder="Correo" required >
+
+      <input type="password" id="passwrd" class="form-control" placeholder="Passwrd" required>
+</form>
+      <form method="POST" enctype="multipart/form-data" id="fileUploadForm" class="form-signin">
+            <h6>Selecciona tu foto de perfil</h6>
+			<input type="file" class="form-control" name="file">
+
 		</form>
-      
-      
-      
-      <label for="passwrd" class="sr-only">Contraseña</label><br>
-      <input type="password" id="passwrd" class="form-control" placeholder="Passwrd" required><br>
-      <button  onclick="agregar()"  class="btn btn-lg btn-dark btn-block" >Registrar</button>
-   </form>   
+    <button  onclick="agregar()"  class="btn btn-lg btn-dark btn-block" >Registrar</button>
+    <a class="btn btn-lg btn-dark btn-block" href="/">Iniciar Sesion</a>
+ </form>
   </body>
  
 </html>
