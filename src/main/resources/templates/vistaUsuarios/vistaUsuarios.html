@@ -6,7 +6,7 @@
 
 
     <title>Album example for Bootstrap</title>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link  th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 
@@ -32,14 +32,19 @@
                type: 'GET',
                contentType: 'application/json',
                success: function(data){
-                        $("#nombre").value = data.nombreDeUsuario;
-                   		$("#des").value = data.descripcion;
+               console.log(data);
+               document.getElementById("nombre").innerHTML = data.nombreDeUsuario;
+               document.getElementById("des").innerHTML = data.description;
+               $("#fotoUsuario").attr("src",data.imagen);
 
                     },
                     error: function(data) {
                         alert("Error al recuperar los datos del usuario");
                     }
             });
+
+           
+
     };
 
 
@@ -82,6 +87,7 @@
 
       <section class="jumbotron text-center">
         <div class="container">
+            <img width="200" height="200"  id="fotoUsuario" src=""/>
           <h1 class="jumbotron-heading" id="nombre">Album example</h1>
           <p class="lead text-muted" id="des">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
           <p>

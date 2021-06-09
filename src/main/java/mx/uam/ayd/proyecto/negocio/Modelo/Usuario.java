@@ -1,5 +1,6 @@
 package mx.uam.ayd.proyecto.negocio.Modelo;
 
+//import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,6 +24,8 @@ public class Usuario {
     private String descripcion;
     private String correo;
     private String passwrd;
+    //@NotNull
+    private String imagen;
 
     @OneToMany(targetEntity = Publicacion.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "idUsuario")

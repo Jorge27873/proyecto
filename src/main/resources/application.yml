@@ -11,6 +11,14 @@ spring:
   h2:
     console:
       enabled: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 200MB
       
 server:
   port: 8080
+  
+file.upload-dir:
+  ./uploads

@@ -9,44 +9,78 @@
    
     <link  th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link  th:href="@{/StCSS/style.css}" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <script>
-            var xmlhttp = new XMLHttpRequest();
-            var url = "http://localhost:8080/v1/usuarios";
-            function agregar()
-            {
-                $.ajax({
-                    url: url,
-                    data:JSON.stringify({"nombreDeUsuario": $("#nombreDeUsuario").val(), "descripcion": $("#descripcion").val(),"correo": $("#correo").val(),"passwrd": $("#passwrd").val() }) ,
-                    type: 'POST',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function(data){ 
-                        console.log("ya lo agregue");
+            
+
+
+
+           function agregar()
+           {
+             console.log("ya entre");
+       
+    var form = $('#fileUploadForm')[0];
+        var data = new FormData(form);
+        console.log(form);
+        
+      
+        
+        var jsonDataObj = JSON.stringify({"nombreDeUsuario": $("#nombreDeUsuario").val(), "descripcion": $("#descripcion").val(),"correo": $("#correo").val(),"passwrd": $("#passwrd").val() });
+        data.append("jsondata", jsonDataObj);
+        $("#btnSubmit").prop("disabled", true);
+        $.ajax({
+            type: "POST",
+            enctype: 'multipart/form-data',
+            url: "http://localhost:8080/v1/usuarios",
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+
+              console.log("ya lo agregue a bdd");
                         alert("usuario agregado con exito");
-                        
-                    },
-                    error: function(data) {
-                    alert("error agregando el usuario "+data.responseText);
-                    }
-                });
+                
+                
+
+            },
+            error: function (e) {
+                  alert("error agregando el usuario "+data.responseText);
+               
+
             }
+        });
+
+           }
 
         </script>
 
   </head>
   <font face="Comic Sans MS,arial,verdana" size=20>AGREGAR NUEVO USUARIO</font>
   <body class="text-center">
-   <form class="form-signin">
+      <form class="form-signin" enctype="multipart/form-data">
       <label for="nombreDeUsuario" class="sr-only">Nombre</label><br>
       <input type="text" id="nombreDeUsuario" class="form-control" placeholder="Nombre" required autofocus>
       <label for="descripcion" class="sr-only">Descripcion</label><br>
       <input type="text" id="descripcion" class="form-control" placeholder="Descripción" required autofocus>
       <label for="correo" class="sr-only">Correo</label><br>
       <input type="text" id="correo" class="form-control" placeholder="Correo" required autofocus>
+      </form>
+      <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+			<div class="form-group">
+				<input type="file" class="form-control-file border" name="file">
+			</div>
+		</form>
+      
+      
+      
       <label for="passwrd" class="sr-only">Contraseña</label><br>
       <input type="password" id="passwrd" class="form-control" placeholder="Passwrd" required><br>
-      <button onclick="agregar()" class="btn btn-lg btn-dark btn-block" >Registrar</button>
+      <button  onclick="agregar()"  class="btn btn-lg btn-dark btn-block" >Registrar</button>
    </form>   
   </body>
  

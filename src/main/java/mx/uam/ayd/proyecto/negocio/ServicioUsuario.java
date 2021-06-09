@@ -41,6 +41,7 @@ public class ServicioUsuario {
         usuario.setDescripcion(usuarioDto.getDescripcion());
         log.info("Mi desc es "+usuario.getDescripcion());
         usuario.setPasswrd(usuarioDto.getPasswrd());
+        usuario.setImagen(usuarioDto.getImagen());
         repositorioUsuario.save(usuario);
         usuarioDto.setIdUsuario(usuario.getIdUsuario());
         return usuarioDto;

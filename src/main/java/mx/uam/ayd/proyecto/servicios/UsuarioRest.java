@@ -1,5 +1,7 @@
 package mx.uam.ayd.proyecto.servicios;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import mx.uam.ayd.proyecto.dto.PublicacionDto;
 import mx.uam.ayd.proyecto.dto.UsuarioDto;
@@ -10,25 +12,58 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import mx.uam.ayd.proyecto.utils.AppConstants;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/v1") // Versioning
 @Slf4j
 public class UsuarioRest {
+   
+	ObjectMapper objectMapper = new ObjectMapper();
+
+	@Autowired
+	FileStorageService fileStorageService;
 
     @Autowired
     ServicioUsuario servicioUsuario;
 
     //  ******************** METODOS GET ********************
 
-    /**
-     * Recupera un usuario a partir de su nombre de usuario
-     *
-     * @param id el id del usuario
-     * @return el usuario encontrado
-     */
+    
+    /*
+    @RequestMapping(value = AppConstants.EMPLOYEE_URI, method = RequestMethod.GET)
+	public List<Employee> getAllEmployees() {
+		return applicationService.getAllEmployees();
+	}
+*/
+	@RequestMapping(value = AppConstants.DOWNLOAD_URI, method = RequestMethod.GET)
+	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+		Resource resource = fileStorageService.loadFileAsResource(fileName);
+		String contentType = null;
+		try {
+			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		if (contentType == null) {
+			contentType = AppConstants.DEFAULT_CONTENT_TYPE;
+		}
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+				.header(HttpHeaders.CONTENT_DISPOSITION,
+						String.format(AppConstants.FILE_DOWNLOAD_HTTP_HEADER, resource.getFilename()))
+				.body(resource);
+	}
+    
+
+    
+    
     @GetMapping(path = "/usuarios/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UsuarioDto> findUserById(@PathVariable("id") long id){
         try {
@@ -148,10 +183,27 @@ public class UsuarioRest {
      * @param nuevoUsuario el usuario a crear
      * @return el usuario
      */
-    @PostMapping(path = "/usuarios", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UsuarioDto> create(@RequestBody UsuarioDto nuevoUsuario) {
+    @PostMapping(path = "/usuarios", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UsuarioDto> create(@RequestParam(required=true, value="file") MultipartFile file,@RequestParam(required=true, value="jsondata")String jsondata) throws IOException {
+       /* Path directorioImagenes = Paths.get("src"+File.separator+"main"+File.separator+"resources"+File.separator+"static"+File.separator+"images");
+        String rutaAbsoluta= directorioImagenes.toFile().getAbsolutePath();
+        byte[] bytesImg = file.getBytes();
+        Path rutaCompleta = Paths.get(rutaAbsoluta+File.separator+file.getOriginalFilename());
+        Files.write(rutaCompleta,bytesImg);
+	UsuarioDto userData = objectMapper.readValue(jsondata, UsuarioDto.class);
+        userData.setImagen(rutaCompleta.toString());
+        
+        */
+        
+        String fileName = fileStorageService.storeFile(file);
+	String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(AppConstants.DOWNLOAD_PATH)
+		.path(fileName).toUriString();
+        UsuarioDto userData = objectMapper.readValue(jsondata, UsuarioDto.class);
+        userData.setImagen(fileDownloadUri);
+        
+        
         try {
-            UsuarioDto usuarioDto = servicioUsuario.agregaUsuario(nuevoUsuario);
+            UsuarioDto usuarioDto = servicioUsuario.agregaUsuario(userData);
             return ResponseEntity.status(HttpStatus.CREATED).body(usuarioDto);
         } catch(Exception e) {
             HttpStatus status;

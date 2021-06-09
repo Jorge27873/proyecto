@@ -12,6 +12,7 @@ public class UsuarioDto {
     private String descripcion;
     private String correo;
     private String passwrd;
+    private String imagen;
     private List<Long> idsPublicaciones;
 
     public static UsuarioDto creaUsuario(Usuario usuario){
@@ -23,6 +24,7 @@ public class UsuarioDto {
         usuarioDto.setCorreo(usuario.getCorreo());
         usuarioDto.setPasswrd(usuario.getPasswrd());
         usuarioDto.setIdsPublicaciones(usuario.recuperaIds());
+        usuarioDto.setImagen(usuario.getImagen());
         return usuarioDto;
     }
 }
