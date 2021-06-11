@@ -71,13 +71,13 @@
 
       <input type="text" id="descripcion" class="form-control" placeholder="Descripción" required >
 
-      <input type="text" id="correo" class="form-control" placeholder="Correo" required >
+      <input type="email" id="correo" class="form-control" placeholder="Correo" required >
 
       <input type="password" id="passwrd" class="form-control" placeholder="Passwrd" required>
 </form>
       <form method="POST" enctype="multipart/form-data" id="fileUploadForm" class="form-signin">
             <h6>Selecciona tu foto de perfil</h6>
-			<input type="file" class="form-control" name="file">
+			<input type="file" class="form-control" name="file" accept="image/jpeg, image/jpg, image/png">
 
 		</form>
     <button  onclick="agregar()"  class="btn btn-lg btn-dark btn-block" >Registrar</button>

@@ -9,4 +9,6 @@ import mx.uam.ayd.proyecto.negocio.Modelo.Usuario;
 public interface UsuarioRepository extends CrudRepository <Usuario, Long> {
 
     Usuario findBynombreDeUsuario(String nombre);
+
+    Usuario findByCorreo(String correo);
 }
