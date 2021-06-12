@@ -38,6 +38,14 @@ public class UsuarioRest {
 
     
     /*
+    
+    
+    
+    Los endpoints son las URLs de un API o un backend que responden a una petición.
+    
+    
+    
+    
     @RequestMapping(value = AppConstants.EMPLOYEE_URI, method = RequestMethod.GET)
 	public List<Employee> getAllEmployees() {
 		return applicationService.getAllEmployees();
@@ -160,10 +168,17 @@ public class UsuarioRest {
      * @param nuevaPublicacion la publicacion nueva
      * @return la publicacion creada
      */
-    @PostMapping(path = "/usuarios/{id}/publicaciones", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PublicacionDto> addPublicacion(@PathVariable("id") Long id,@RequestBody PublicacionDto nuevaPublicacion){
+    @PostMapping(path = "/usuarios/{id}/publicaciones", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PublicacionDto> addPublicacion(@PathVariable("id") Long id,@RequestParam(required=true, value="file") MultipartFile file,@RequestParam(required=true, value="jsondata")String jsondata) throws IOException{
+        
+        String fileName = fileStorageService.storeFile(file);
+	String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(AppConstants.DOWNLOAD_PATH)
+		.path(fileName).toUriString();
+        PublicacionDto nuevaPublicacionDto = objectMapper.readValue(jsondata, PublicacionDto.class);
+        nuevaPublicacionDto.setImagen(fileDownloadUri);
+        
         try {
-            PublicacionDto publicacionDto = servicioUsuario.agregaPublicacion(id,nuevaPublicacion);
+            PublicacionDto publicacionDto = servicioUsuario.agregaPublicacion(id,nuevaPublicacionDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(publicacionDto);
         }
         catch (Exception e){
@@ -176,7 +191,7 @@ public class UsuarioRest {
             throw new ResponseStatusException(status, e.getMessage());
         }
     }
-
+    
     /**
      * Crea un usuario nuevo
      *
@@ -185,16 +200,7 @@ public class UsuarioRest {
      */
     @PostMapping(path = "/usuarios", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UsuarioDto> create(@RequestParam(required=true, value="file") MultipartFile file,@RequestParam(required=true, value="jsondata")String jsondata) throws IOException {
-       /* Path directorioImagenes = Paths.get("src"+File.separator+"main"+File.separator+"resources"+File.separator+"static"+File.separator+"images");
-        String rutaAbsoluta= directorioImagenes.toFile().getAbsolutePath();
-        byte[] bytesImg = file.getBytes();
-        Path rutaCompleta = Paths.get(rutaAbsoluta+File.separator+file.getOriginalFilename());
-        Files.write(rutaCompleta,bytesImg);
-	UsuarioDto userData = objectMapper.readValue(jsondata, UsuarioDto.class);
-        userData.setImagen(rutaCompleta.toString());
-        
-        */
-        
+       
         String fileName = fileStorageService.storeFile(file);
 	String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(AppConstants.DOWNLOAD_PATH)
 		.path(fileName).toUriString();

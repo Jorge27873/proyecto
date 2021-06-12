@@ -38,9 +38,29 @@
                     document.getElementById("nombre").innerHTML = data.nombreDeUsuario;
                     document.getElementById("des").innerHTML = data.descripcion;
                     document.title = data.nombreDeUsuario;
-               		$("#fotoUsuario").attr("src",data.imagen);
-               		document.getElementById("fotoUsuario").className = "rounded-circle";
+                  $("#fotoUsuario").attr("src",data.imagen);
+                  document.getElementById("fotoUsuario").className = "rounded-circle";
 
+                    },
+                    error: function(data) {
+                        alert("Error al recuperar los datos del usuario");
+                    }
+            });
+
+         $.ajax({
+
+               url:"http://localhost:8080/v1/usuarios/"+id+"/publicaciones",
+               type: 'GET',
+               contentType: 'application/json',
+               success: function(data){
+                   console.log(data);
+$("#contenido").empty();
+        // Recorre los objetos de la playlist y genera la lista
+        var i;
+        for (i=0;i<data.length;i++) {
+          var element = data[i];
+          $("#contenido").append($("<div class=\"col\"><div class=\"card shadow-sm\"><img width=\"150\" height=\"150\" src='"+data[i].imagen+"'></img><div class=\"card-body\"><p class=\"card-text\">"+data[i].descripcion+"</p><div class=\"d-flex justify-content-between align-items-center\"><div class=\"btn-group\"><div class=\"btn-group\"><button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#viewModal\">Ver</button><button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#editModal\">Editar</button></div></div><small class=\"text-muted\">"+(i+1)+"/"+data.length+" </small></div></div></div></div>"));
+        }
                     },
                     error: function(data) {
                         alert("Error al recuperar los datos del usuario");
@@ -52,24 +72,24 @@
     };
 
     function addPost(){
-     	var form = $('#fileUploadForm')[0];
-    	var data = new FormData(form);
+      var form = $('#fileUploadForm')[0];
+      var data = new FormData(form);
         var jsonDataObj = JSON.stringify({
                 "descripcion": $("#descripcionPost").val(),
-                "localidad": $("#locacion").val()});
+                "locacion": $("#locacion").val()});
         data.append("jsondata", jsonDataObj);
         
-    	$.ajax({
-    	
-			enctype: 'multipart/form-data',
-	        url:  "http://localhost:8080/v1/usuarios/"+id +"/publicaciones",
-	        type: "POST",
-	        data: data,
-	        processData: false,
-	        contentType: false,
-	        cache: false,
-	        timeout: 600000,
-	        success: function (data) {
+      $.ajax({
+      
+      enctype: 'multipart/form-data',
+          url:  "http://localhost:8080/v1/usuarios/"+id +"/publicaciones",
+          type: "POST",
+          data: data,
+          processData: false,
+          contentType: false,
+          cache: false,
+          timeout: 600000,
+          success: function (data) {
               console.log("post agregad");
               alert("Post agregado con exito");
             },
@@ -117,26 +137,16 @@
           </p>
         </div>
       </section>
+    <div class="album py-5 bg-light">
 
-      <div class="album py-5 bg-light">
-        <div class="container">
+    <div class="container">
 
-          <div class="row">
-            <div class="col-md-4">
-              <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#viewModal">Ver</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#editModal">Editar</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div id="contenido" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+       
+      </div>
+    </div>
+  </div>
+
 
     </main>
 

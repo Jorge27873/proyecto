@@ -2,6 +2,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
+    
+    
+    
+     <!-- para ejecutar maven en STS4 necesitamos dar click derecho en el pom 
+                        y luego run as y elegimos maven xxx donde xxx es la etapa de maven
+
+                        cuando ejecuto maven build hace todo.
+                        cuando ejecuto maven test  hace compilacion y pruebas
+                        
+                        Si doy por ejemplo run as build... en goals escribo compile, solo compila (ejecuta ese goal)
+
+                        con maven build y luego package construye un jar o war con las dependencias
+
+                        
+                        asi es como puedo ejecutar los goals de maven, otro goal es package-->
+                        
+                        
+                        
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -16,6 +35,7 @@
 
     <properties>
         <java.version>8</java.version>
+        <docker.image>otrebmuh/${project.artifactId}</docker.image>
     </properties>
 
     <dependencies>
@@ -70,22 +90,67 @@
             </exclusions>
         </dependency>
     </dependencies>
-
+    
+    <!--<packaging>war</packaging> con esto genera el war-->
+    
     <build>
+        
         <plugins>
+            <!--este plugin permite hacer el uber jar-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin><plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><configuration><source>8</source><target>8</target></configuration></plugin>
-            <!--<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <!--plugin para crear mi imagen docker, busca el Dockerfile y usa informacion del pom
+            para nombrar mi imagen, se ejecutan todas las acciones de maven y luego crea la imagen
+            automaticamente
+            maven build  package y listo hace todo y crea la imagen, hay que descomentar el plugin 
+            para que lo haga, si veo mis imagenes con docker images ya esta la imagen creada,
+            esto automatiza el proceso de creacion de la imagen.
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.13</version>
+                <executions>
+                    <execution>
+                    <id>default</id>
+                    <goals>
+                        <goal>build</goal>
+                        <goal>push</goal>
+   
+                        
+                    </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                <repository>${docker.image}</repository>
+                <tag>${project.version}</tag>
                 </configuration>
             </plugin>-->
         </plugins>
     </build>
 
 </project>
+
+
+<!--
+Docker:
+
+necesitamos instalar docker
+y luego configurarle cuanta memoria y disco le vamos a dar
+
+
+comandos:
+docker ps   me dice que contenedores estan corriendo en mi computadora
+docker images   nos muestra las imagenes descargadas
+docker stop "container id"   detiene la ejecucion de un contenedor
+
+si no corro un comando (/bin/sh) en docker run, el contenedor se crea y se destruye
+
+docker run -p 8080:8080 miaplicacion   el puerto 8080 del contenedor exportamelo en el 8080 local
+
+docker rmi "container image"    borra la imagen
+
+
+para poder usar docker push es necesario crear una cuenta en dockerhub
+-->

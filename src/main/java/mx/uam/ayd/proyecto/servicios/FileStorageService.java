@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface FileStorageService {
 
-	String storeFile(MultipartFile file) throws IOException;
-	Resource loadFileAsResource(String fileName);
+	public String storeFile(MultipartFile file) throws IOException;
+
+	public Resource loadFileAsResource(String fileName);
 }

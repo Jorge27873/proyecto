@@ -10,6 +10,7 @@ public class PublicacionDto {
     private long idPublicacion;
     private String descripcion;
     private String locacion;
+    private String imagen;
     private long usuario;
 
     public static PublicacionDto creaPublicacionDto(Publicacion publicacion){
@@ -18,6 +19,7 @@ public class PublicacionDto {
         publicacionDto.setDescripcion(publicacion.getDescripcion());
         publicacionDto.setLocacion(publicacion.getLocacion());
         publicacionDto.setUsuario(publicacion.getUsuario().getIdUsuario());
+        publicacionDto.setImagen(publicacion.getImagen());
         return publicacionDto;
     }
 }
