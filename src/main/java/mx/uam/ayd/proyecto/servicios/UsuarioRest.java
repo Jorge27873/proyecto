@@ -19,8 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import mx.uam.ayd.proyecto.utils.AppConstants;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.multipart.MultipartFile;
 
+
+@PreAuthorize("authenticated")
 @RestController
 @RequestMapping("/v1") // Versioning
 @Slf4j
@@ -33,7 +36,8 @@ public class UsuarioRest {
 
     @Autowired
     ServicioUsuario servicioUsuario;
-
+    
+    
     //  ******************** METODOS GET ********************
 
     
