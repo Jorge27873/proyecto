@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -14,10 +14,14 @@
                         
                         Si doy por ejemplo run as build... en goals escribo compile, solo compila (ejecuta ese goal)
 
-                        con maven build y luego package construye un jar o war con las dependencias
-
+                        con maven build... y luego package construye un uber jar o war con las dependencias
+                        puedo ejecutar el jar con java -jar xxx.jar
                         
                         asi es como puedo ejecutar los goals de maven, otro goal es package
+
+
+
+
     
     Diagrams.net es la aplicación de diagramación más estrechamente integrada de Google Drive disponible.
 -Diagramas de flujo.
