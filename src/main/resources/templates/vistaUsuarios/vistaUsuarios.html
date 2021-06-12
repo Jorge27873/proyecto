@@ -45,7 +45,13 @@
                     error: function(data) {
                         alert("Error al recuperar los datos del usuario");
                     }
-            });
+            });     
+            recuperaPosts();      
+
+    };
+
+    function recuperaPosts()
+    {
 
          $.ajax({
 
@@ -59,17 +65,14 @@ $("#contenido").empty();
         var i;
         for (i=0;i<data.length;i++) {
           var element = data[i];
-          $("#contenido").append($("<div class=\"col\"><div class=\"card shadow-sm\"><img width=\"150\" height=\"150\" src='"+data[i].imagen+"'></img><div class=\"card-body\"><p class=\"card-text\">"+data[i].descripcion+"</p><div class=\"d-flex justify-content-between align-items-center\"><div class=\"btn-group\"><div class=\"btn-group\"><button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#viewModal\">Ver</button><button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#editModal\">Editar</button></div></div><small class=\"text-muted\">"+(i+1)+"/"+data.length+" </small></div></div></div></div>"));
+          $("#contenido").append($("<div class=\"col\"><div class=\"card shadow-sm\"><img class=\"img-thumbnail\" width=\"150\" height=\"150\" src='"+data[i].imagen+"'></img><div class=\"card-body\"><p class=\"card-text\">"+data[i].descripcion+"</p><div class=\"d-flex justify-content-between align-items-center\"><div class=\"btn-group\"><div class=\"btn-group\"><button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#viewModal\">Ver</button><button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#editModal\">Editar</button></div></div><small class=\"text-muted\">"+(i+1)+"/"+data.length+" </small></div></div></div></div>"));
         }
                     },
                     error: function(data) {
                         alert("Error al recuperar los datos del usuario");
                     }
             });
-
-           
-
-    };
+    }
 
     function addPost(){
       var form = $('#fileUploadForm')[0];
@@ -92,6 +95,7 @@ $("#contenido").empty();
           success: function (data) {
               console.log("post agregad");
               alert("Post agregado con exito");
+              recuperaPosts();
             },
             error: function (e) {
                   alert("error agregando el usuario "+data.responseText);
@@ -100,6 +104,7 @@ $("#contenido").empty();
             }
 
     });
+
 }
 
 
