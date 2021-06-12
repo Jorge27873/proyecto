@@ -32,7 +32,8 @@ public class ServicioUsuario {
     public UsuarioDto agregaUsuario(UsuarioDto usuarioDto) {
         // Regla de negocio: No se permite agregar dos usuarios con el mismo nombre de usuario
         Usuario usuario = repositorioUsuario.findBynombreDeUsuario(usuarioDto.getNombreDeUsuario());
-        if(usuario != null) {throw new IllegalArgumentException("Ese usuario ya existe");}
+        Usuario usuarioCorreo = repositorioUsuario.findByCorreo(usuarioDto.getCorreo());
+        if(usuario != null || usuarioCorreo != null) {throw new IllegalArgumentException("Ese usuario ya existe");}
         log.info("Agregando usuario nombre: "+usuarioDto.getNombreDeUsuario());
         usuario = new Usuario();
         usuario.setNombreDeUsuario(usuarioDto.getNombreDeUsuario());
