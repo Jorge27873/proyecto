@@ -153,7 +153,7 @@ public class ServicioUsuario {
     {
         List<UsuarioDto> usuarios = new ArrayList<>();
         for (Usuario usuario:repositorioUsuario.findAll()) {
-            if (nombre.contains(usuario.getNombreDeUsuario())){usuarios.add(UsuarioDto.creaUsuario(usuario));}
+            if (usuario.getNombreDeUsuario().contains(nombre)){usuarios.add(UsuarioDto.creaUsuario(usuario));}
         }
         return usuarios;
     }
