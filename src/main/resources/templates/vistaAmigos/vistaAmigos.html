@@ -54,10 +54,10 @@
       </div>
     </div>
     
-    <form id="amigo" action="vistaAmigos" method="get">
+    <from id="amigo" action="vistaAmigo" methood="get">
     <input id="originalId" type="hidden" name="id">
     <input id="friend" type="hidden" name="f">
-    </form>
+    </from>
   </header>
 
   <main role="main">
@@ -67,11 +67,7 @@
         <img width="200" height="200" id="fotoUsuario" src="" />
         <h1 class="jumbotron-heading" id="nombre"></h1>
         <p class="lead text-muted" id="des"></p>
-        <p>
-          <button type="button" class="btn btn-lg btn btn-dark" data-toggle="modal" data-target="#addModal">Agrega una
-            nueva Foto</button>
 
-        </p>
       </div>
     </section>
     <div class="album py-5 bg-light">
@@ -126,7 +122,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-danger" onclick="deletePost()">Eliminar Foto</button>
+
         </div>
       </div>
     </div>
@@ -214,11 +210,12 @@
 
 
     var searchParams = new URLSearchParams(window.location.search);
-    var id = searchParams.get('id');
+    var original = searchParams.get('id');
+    var id = searchParams.get('f');
     console.log(id);
     window.onload = function () {
 	
-    	$("#home").attr('href', 'http://localhost:8080/vistaUsuarios?id='+id);
+    $("#home").attr('href', 'http://localhost:8080/vistaUsuarios?id='+original);
 
 
       $.ajax({
@@ -283,8 +280,7 @@
                 "'><div class=\"card-body\"><p class=\"card-text\">" + data[i].descripcion + "</p>" +
                 "<div class=\"d-flex justify-content-between align-items-center\"><div class=\"btn-group\">" +
                 "<div class=\"btn-group\"><button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#viewModal\" onclick=\"verFoto(" + data[i].idPublicacion + ")\">Ver" +
-                "</button><button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#editModal\" onclick=\"editar(" + data[i].idPublicacion + ")\">Editar</button>" +
-                "</div></div><small class=\"text-muted\">" + (i + 1) + "/" + data.length + " </small></div></div></div></div>"));
+                "</button></div></div><small class=\"text-muted\">" + (i + 1) + "/" + data.length + " </small></div></div></div></div>"));
             }
           } else {
             $("#contenido").append("<section class=\"text-center\"><h1>Aun no tienes fotos<br>Agrega algunas para verlas aquí </h1></section>")
@@ -465,8 +461,7 @@
     		          $("#result").css("display","block");
     		          $("#result").append("<ul>");
     		          for (i = 0; i < data.length; i++) {
-    		        	  $("#result").append("<li><button type=\"button\" class=\"btn btn-link\" onclick=\"redireccion("+id+","+
-    		        			  data[i].idUsuario+" )\">"+data[i].nombreDeUsuario+"</button></li>");
+    		        	  $("#result").append("<li><a href=\"#\">"+data[i].nombreDeUsuario+"</a></li>");
     		          }
     		          $("#result").append("</ul>");
     		         }else{
@@ -485,9 +480,9 @@
 
 
     function redireccion(id,f){
-    	$("#originalId").val(id);
-    	$("#friend").val(f);
-    	$("#amigo").submit();
+    	$("originalId").val(id);
+    	$("friend").val(f);
+    	
     }
     
     

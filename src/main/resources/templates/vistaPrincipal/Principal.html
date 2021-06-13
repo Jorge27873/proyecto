@@ -32,7 +32,7 @@
 
     </form>
 
-    <form action="vistaUsuarios" methood="get" id="enviaid">
+    <form action="vistaUsuarios" method="get" id="enviaid">
       <input type="hidden" name="id" id="id" value="1">
     </form>
     <div class="gap-2">
@@ -53,7 +53,7 @@
         contentType: 'application/json',
         cache: false,
         success: function (data) {
-          $("#id").value = data.idUsuario;
+          $("#id").val(data.idUsuario);
           $("#enviaid").submit();
         },
         error: function (data) {

@@ -31,3 +31,30 @@
 textarea {
   resize: none;
 }
+#result{
+	position:fixed;
+	width: 14.5em;
+	background-color: #FFF;
+	margin: 0px;
+	padding: 0px;
+	display: none;
+	z-index: 9999;
+}
+ul{
+	list-style: none;
+
+}
+li{
+	list-style: none;
+	padding: 0.5em;
+	border-bottom: 1px solid gray;
+}
+#result>ul>li>a{
+	color: black;
+		
+}
+#result>ul>li>a:hover{
+	text-decoration: none;
+	color: gray;
+
+}

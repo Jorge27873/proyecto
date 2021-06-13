@@ -61,15 +61,15 @@ public class PrincipalController {
     		return "VistaAgregarUs/AgregarUsuario";
     	
     }
-	 
-	 /**
-	@RequestMapping(value = "/vistaUsuarios")
-    public String vistaUsuarios() {
+	
+	@RequestMapping(value = "/vistaAmigos")
+    public String getAmigos(Model model) {
         
 			// Redirige a la vista principal
-    		return "vistaUsuarios/Principal";
+    		return "vistaAmigos/vistaAmigos";
     	
     }
-     */
-    
+	 
+	 
+
 }
