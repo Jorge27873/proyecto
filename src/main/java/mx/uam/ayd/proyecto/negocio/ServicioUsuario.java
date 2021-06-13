@@ -56,6 +56,7 @@ public class ServicioUsuario {
      * @return el usuario encontrado
      */
     public UsuarioDto iniciaSesion(String id, UsuarioDto contra){
+        log.info("Entro a inciciar sesion");
         Usuario usuario = repositorioUsuario.findBynombreDeUsuario(id);
         if (usuario == null || !usuario.getPasswrd().equals(contra.getPasswrd())){throw new IllegalArgumentException("Usuario inexistente o contraseña incorrecta");}
         return UsuarioDto.creaUsuario(usuario);
@@ -148,5 +149,12 @@ public class ServicioUsuario {
         repositorioUsuario.save(usuario);
     }
 
-
+    public List<UsuarioDto> buscar(String nombre)
+    {
+        List<UsuarioDto> usuarios = new ArrayList<>();
+        for (Usuario usuario:repositorioUsuario.findAll()) {
+            if (nombre.contains(usuario.getNombreDeUsuario())){usuarios.add(UsuarioDto.creaUsuario(usuario));}
+        }
+        return usuarios;
+    }
 }

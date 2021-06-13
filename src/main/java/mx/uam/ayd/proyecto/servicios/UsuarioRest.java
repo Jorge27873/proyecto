@@ -5,6 +5,7 @@ import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import mx.uam.ayd.proyecto.dto.PublicacionDto;
 import mx.uam.ayd.proyecto.dto.UsuarioDto;
+import mx.uam.ayd.proyecto.negocio.Modelo.Usuario;
 import mx.uam.ayd.proyecto.negocio.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -140,6 +141,12 @@ public class UsuarioRest {
         }
     }
 
+    @GetMapping(value = "search/{nombre}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<UsuarioDto>> search(@PathVariable String nombre){
+        List<UsuarioDto> usuarios = servicioUsuario.buscar(nombre);
+        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+    }
+
     //  ******************** METODOS POST ********************
 
     /**
@@ -169,7 +176,7 @@ public class UsuarioRest {
      * crea una nueva publicacion
      *
      * @param id el id del usuario
-     * @param nuevaPublicacion la publicacion nueva
+     * @param jsondata la publicacion nueva
      * @return la publicacion creada
      */
     @PostMapping(path = "/usuarios/{id}/publicaciones", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -199,7 +206,7 @@ public class UsuarioRest {
     /**
      * Crea un usuario nuevo
      *
-     * @param nuevoUsuario el usuario a crear
+     * @param jsondata el usuario a crear
      * @return el usuario
      */
     @PostMapping(path = "/usuarios", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
