@@ -59,7 +59,7 @@ de reconocimiento de formas y escritura a mano fácil de leer, y dibujar con una
     <description>Arquitectura de base para el proyecto</description>
 
     <properties>
-        <java.version>8</java.version>
+        <java.version>11</java.version>
         <docker.image>otrebmuh/${project.artifactId}</docker.image>
     </properties>
 
