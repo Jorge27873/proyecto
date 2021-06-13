@@ -1,53 +1,69 @@
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Inicia Sesion</title>
+<html>
 
-    <!-- Bootstrap core CSS -->
-    <link  th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link  th:href="@{/css/login.css}" rel="stylesheet">
-    <link  th:href="@{/css/form.css}" rel="stylesheet">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Inicia Sesion</title>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  </head>
+  <!-- Bootstrap core CSS -->
 
-  <body class="text-center">
-    <form class="form-signin">
-      <svg  width="72" height="70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/login.css" rel="stylesheet">
+  <link href="/css/form.css" rel="stylesheet">
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+</head>
+
+<body>
+  <div class="text-center col-2">
+    <form class="form-signin" id="login">
+      <svg width="72" height="70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+        <circle cx="12" cy="13" r="4"></circle>
+      </svg>
       <h1 class="h3 mb-3 font-weight-normal">InstaUami</h1>
-      <label for="nombreUsuario" class="sr-only">Nombre de Usuario</label>
+      <label for="inputEmail" class="sr-only">Nombre de Usuario</label>
       <input type="text" id="nombreUsuario" class="form-control" placeholder="Nombre de Usuario" required autofocus>
-      <label for="Password" class="sr-only">Contraseña</label>
+      <label for="inputPassword" class="sr-only">Contraseña</label>
       <input type="password" id="Password" class="form-control" placeholder="Contraseña" required>
-      <button class="btn btn-lg btn-dark btn-block" onclick="Login()">Iniciar sesion</button>
-      <a class="btn btn-lg btn-dark btn-block" href="/signup">Registrate</a>
+
     </form>
 
-    <form action="vistaUsuarios" method="get" id="enviaid">
-		<input type="hidden" name="id" id="id" value="1">
+    <form action="vistaUsuarios" methood="get" id="enviaid">
+      <input type="hidden" name="id" id="id" value="1">
     </form>
+    <div class="gap-2">
+      <button class="btn  btn-dark btn-block" onclick="Login()">Iniciar sesion</button>
+      <a class="btn  btn-dark btn-block" href="/signup">Registrate </a>
+    </div>
+  </div>
+  <script>
+    function Login() {
 
-    <script>
-    function Login(){
 
-       $.ajax({
-        	   
-               url: "http://localhost:8080/v1/login/"+$("#nombreUsuario").val(),
-               data:JSON.stringify({"passwrd": $("#Password").val() }),
-               type: 'POST',
-               contentType: 'application/json',
-               success: function(data){
-                        $("#id").value = data.idUsuario;
-                   		$("#enviaid").submit();
-                    },
-                    error: function(data) {
-                        alert("Los datos son incorrectos \n Intentalo de nuevo");
-                    }
-            });
+
+      $.ajax({
+
+        url: "http://localhost:8080/v1/login/" + $("#nombreUsuario").val(),
+        data: JSON.stringify({ "passwrd": $("#Password").val() }),
+        type: 'POST',
+        contentType: 'application/json',
+        cache: false,
+        success: function (data) {
+          $("#id").value = data.idUsuario;
+          $("#enviaid").submit();
+        },
+        error: function (data) {
+          alert("Los datos son incorrectos \n Intentalo de nuevo");
+        }
+      });
 
 
     }
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>

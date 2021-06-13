@@ -1,277 +1,452 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
-    <title>Cargando..</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- Bootstrap core CSS -->
-    <link  th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <title>Cargando..</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Bootstrap core CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link th:href="@{/album.css}" rel="stylesheet">
-    
-    <link  th:href="@{/css/form.css}" rel="stylesheet">
-    
-    
-  </head>
+  <!-- Custom styles for this template -->
+  <link href="/album.css" rel="stylesheet">
 
-  <body>
+  <link href="/css/form.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+
+  <header>
+
+    <div class="navbar navbar-dark bg-dark box-shadow">
+      <div class="container d-flex justify-content-between">
+        <a href="#" class="navbar-brand d-flex align-items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+          <strong>InstaUami</strong>
+        </a>
+
+        <div class="d-flex">
+          <span class="input-group-text" id="basic-addon1">@</span>
+          <input class="form-control me-2" type="search" placeholder="Busca un usuario" aria-label="Search">
+          <a href="/logout"><button type="button" class="btn btn-primary">Cerrar Sesion</button></a>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <main role="main">
+
+    <section class="jumbotron text-center">
+      <div class="container">
+        <img width="200" height="200" id="fotoUsuario" src="" />
+        <h1 class="jumbotron-heading" id="nombre"></h1>
+        <p class="lead text-muted" id="des"></p>
+        <p>
+          <button type="button" class="btn btn-lg btn btn-dark" data-toggle="modal" data-target="#addModal">Agrega una
+            nueva Foto</button>
+
+        </p>
+      </div>
+    </section>
+    <div class="album py-5 bg-light">
+
+      <div class="container">
+        <div class="row" id="contenido">
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+  </main>
+  <footer class="text-muted">
+    <div class="container">
+      <p class="float-right">
+        <a href="/">Salir</a>
+      </p>
+      <p>InstaUami &copy; 2021</p>
+
+    </div>
+  </footer>
+
+
+
+
+  <!-- viewModal -->
+  <div class="modal fade" id="viewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Foto #</h5>
+          <h5 id="idpub"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btn_modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <figure class="figure">
+            <img src="" class="img-fluid" alt="Responsive image" id="modalImage">
+            <figcaption class="figure-caption" id="desView"></figcaption>
+          </figure>
+          <div>
+            <a id="loca" href="#"></a>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-danger" onclick="deletePost()">Eliminar Foto</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- editModal -->
+  <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="EditTitle">Edita la publicacion #</h5>
+          <h5 id="idEdit"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btn_modaledit">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center">
+
+            <form class="form-signin">
+
+              <textarea id="desPostEdit" class="form-control" placeholder="Descripción" autofocus></textarea>
+
+              <input type="text" id="locEdit" class="form-control" placeholder="Locacion" autofocus>
+
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" onclick="editPost()">Actualizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- addModal -->
+  <div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Agrega un Post</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btn_modaladd">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="text-center">
+
+            <form class="form-signin" enctype="multipart/form-data" id="fileUploadForm">
+
+              <textarea id="desPost" class="form-control" placeholder="Descripción" autofocus></textarea>
+
+              <input type="text" id="loc" class="form-control" placeholder="Locacion" autofocus>
+
+              <h6>Selecciona una foto </h6>
+              <input type="file" class="form-control" name="file" id="file">
+            </form>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" onclick="addPost()">Agregar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+  <script src="assets/js/vendor/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="assets/js/vendor/holder.min.js"></script>
 
   <script>
+
+
     var searchParams = new URLSearchParams(window.location.search);
     var id = searchParams.get('id');
     console.log(id);
-    window.onload = function() {
+    window.onload = function () {
 
 
 
-        $.ajax({
+      $.ajax({
 
-               url:"http://localhost:8080/v1/usuarios/"+id,
-               type: 'GET',
-               contentType: 'application/json',
-               success: function(data){
-                    console.log(data);
-                    document.getElementById("nombre").innerHTML = data.nombreDeUsuario;
-                    document.getElementById("des").innerHTML = data.descripcion;
-                    document.title = data.nombreDeUsuario;
-                  $("#fotoUsuario").attr("src",data.imagen);
-                  document.getElementById("fotoUsuario").className = "rounded-circle";
+        url: "http://localhost:8080/v1/usuarios/" + id,
+        type: 'GET',
+        contentType: 'application/json',
+        success: function (data) {
+          console.log(data);
+          document.getElementById("nombre").innerHTML = data.nombreDeUsuario;
+          document.getElementById("des").innerHTML = data.descripcion;
+          document.title = data.nombreDeUsuario;
+          $("#fotoUsuario").attr("src", data.imagen);
+          document.getElementById("fotoUsuario").className = "rounded-circle";
 
-                    },
-                    error: function(data) {
-                        alert("Error al recuperar los datos del usuario");
-                    }
-            });     
-            recuperaPosts();      
+        },
+        error: function (data) {
+          alert("Error al recuperar los datos del usuario");
+        }
+      });
+      recuperaPosts();
 
     };
 
-    function recuperaPosts()
-    {
+    function verFoto(idpub) {
 
-         $.ajax({
+      $.ajax({
 
-               url:"http://localhost:8080/v1/usuarios/"+id+"/publicaciones",
-               type: 'GET',
-               contentType: 'application/json',
-               success: function(data){
-                   console.log(data);
-$("#contenido").empty();
-        // Recorre los objetos de la playlist y genera la lista
-        var i;
-        for (i=0;i<data.length;i++) {
-          var element = data[i];
-          $("#contenido").append($("<div class=\"col\"><div class=\"card shadow-sm\"><img class=\"img-thumbnail\" width=\"150\" height=\"150\" src='"+data[i].imagen+"'></img><div class=\"card-body\"><p class=\"card-text\">"+data[i].descripcion+"</p><div class=\"d-flex justify-content-between align-items-center\"><div class=\"btn-group\"><div class=\"btn-group\"><button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#viewModal\">Ver</button><button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#editModal\">Editar</button></div></div><small class=\"text-muted\">"+(i+1)+"/"+data.length+" </small></div></div></div></div>"));
+        url: "http://localhost:8080/v1/usuarios/" + id + "/publicaciones/" + idpub,
+        type: 'GET',
+        contentType: 'application/json',
+        success: function (data) {
+          $("#modalImage").attr("src", data.imagen);
+          $("#idpub").text(idpub);
+          $("#loca").text("Foto tomada en: " + data.locacion);
+          $("#desView").text(data.descripcion);
+
+        }, error: function (data) {
+          alert("Error al recuperar la foto");
+
         }
-                    },
-                    error: function(data) {
-                        alert("Error al recuperar los datos del usuario");
-                    }
-            });
+      });
+
     }
 
-    function addPost(){
+    function recuperaPosts() {
+
+      $.ajax({
+
+        url: "http://localhost:8080/v1/usuarios/" + id + "/publicaciones",
+        type: 'GET',
+        contentType: 'application/json',
+        success: function (data) {
+          console.log(data);
+          $("#contenido").empty();
+          // Recorre los objetos de la playlist y genera la lista
+          var i;
+          if (data.length > 0) {
+            for (i = 0; i < data.length; i++) {
+              var element = data[i];
+              $("#contenido").append($("<div class=\"col-4\" id=\"" + i + 1 + "\"><div class=\"card mb-4 box-shadow\"><img class=\"card-img-top\" src='" + data[i].imagen +
+                "'><div class=\"card-body\"><p class=\"card-text\">" + data[i].descripcion + "</p>" +
+                "<div class=\"d-flex justify-content-between align-items-center\"><div class=\"btn-group\">" +
+                "<div class=\"btn-group\"><button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#viewModal\" onclick=\"verFoto(" + data[i].idPublicacion + ")\">Ver" +
+                "</button><button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#editModal\" onclick=\"editar(" + data[i].idPublicacion + ")\">Editar</button>" +
+                "</div></div><small class=\"text-muted\">" + (i + 1) + "/" + data.length + " </small></div></div></div></div>"));
+            }
+          } else {
+            $("#contenido").append("<section class=\"text-center\"><h1>Aun no tienes fotos<br>Agrega algunas para verlas aquí </h1></section>")
+          }
+        },
+        error: function (data) {
+          alert("Error al recuperar los datos del usuario");
+
+        }
+      });
+    }
+
+
+    function deletePost() {
+
+      var opcion = confirm("¿Estas seguro de borrar la foto?");
+      if (opcion == true) {
+
+        var idp = $("#idpub").text();
+
+        $.ajax({
+          url: "http://localhost:8080/v1/usuarios/" + id + "/publicaciones/" + idp,
+          type: 'DELETE',
+          contentType: 'application/json',
+          success: function (data) {
+            recuperaPosts();
+            $("#btn_modal").trigger("click");
+          },
+          error: function (data) {
+            alert("Error al borrar la foto");
+
+          }
+        });
+
+
+
+      }
+
+
+    }
+
+
+    function editar(idpubE) {
+
+      $.ajax({
+
+        url: "http://localhost:8080/v1/usuarios/" + id + "/publicaciones/" + idpubE,
+        type: 'GET',
+        contentType: 'application/json',
+        success: function (data) {
+
+          $("#idEdit").text(idpubE);
+          $("#desPostEdit").text(data.descripcion);
+          $("#locEdit").text(data.locacion);
+
+        }, error: function (data) {
+          alert("Error al recuperar la foto");
+
+        }
+      });
+
+    }
+
+    function editPost() {
+
+      var descripcion = document.getElementById('desPostEdit').value;
+      if ((descripcion.length == 0) || (descripcion.length > 50)) {
+        alert('Necesitas ingresar una descripcion (Menos de 50 caracteres)');
+        return;
+      }
+      var locacion = document.getElementById('locEdit').value;
+      if (locacion.length == 0) {
+        alert('Necesitas ingresar una localidad');
+        return;
+      }
+
+      var idEd = $("#idEdit").text();
+      var post = {
+        descripcion: $("#desPostEdit").val(),
+        locacion: $("#locEdit").val()
+      };
+
+      $.ajax({
+
+
+        url: "http://localhost:8080/v1/usuarios/" + id + "/publicaciones/" + idEd,
+        type: "PUT",
+        data: JSON.stringify(post),
+        dataType: 'json',
+        contentType: 'application/json',
+
+        success: function (data) {
+          $("#desPostEdit").val("");
+          $("#desPostEdit").text("");
+          $("#locEdit").val("");
+          $("#locEdit").text("");
+
+          recuperaPosts();
+          $("#btn_modaledit").trigger("click");
+        },
+        error: function (e) {
+          alert("Error al agregar foto ");
+
+
+        }
+      });
+
+
+    }
+
+    function addPost() {
+
+      var descripcion = document.getElementById('desPost').value;
+      if ((descripcion.length == 0) || (descripcion.length > 50)) {
+        alert('Necesitas ingresar una descripcion (Menos de 50 caracteres)');
+        return;
+      }
+      var locacion = document.getElementById('loc').value;
+      if (locacion.length == 0) {
+        alert('Necesitas ingresar una localidad');
+        return;
+      }
+      var image = $("#file").val();
+      if (!image) {
+        alert('Necesitas seleccionar una foto');
+        return;
+      }
+
       var form = $('#fileUploadForm')[0];
       var data = new FormData(form);
-        var jsonDataObj = JSON.stringify({
-                "descripcion": $("#descripcionPost").val(),
-                "locacion": $("#locacion").val()});
-        data.append("jsondata", jsonDataObj);
-        
+      var jsonDataObj = JSON.stringify({
+        "descripcion": $("#desPost").val(),
+        "locacion": $("#loc").val()
+      });
+      data.append("jsondata", jsonDataObj);
+
       $.ajax({
-      
-      enctype: 'multipart/form-data',
-          url:  "http://localhost:8080/v1/usuarios/"+id +"/publicaciones",
-          type: "POST",
-          data: data,
-          processData: false,
-          contentType: false,
-          cache: false,
-          timeout: 600000,
-          success: function (data) {
-              console.log("post agregad");
-              alert("Post agregado con exito");
-              recuperaPosts();
-            },
-            error: function (e) {
-                  alert("error agregando el usuario "+data.responseText);
+
+        enctype: 'multipart/form-data',
+        url: "http://localhost:8080/v1/usuarios/" + id + "/publicaciones",
+        type: "POST",
+        data: data,
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+          $("#desPost").val("");
+          $("#desPost").text("");
+          $("#loc").val("");
+          $("#loc").text("");
+          $("#file").val("");
+          $("#file").text("");
+          recuperaPosts();
+          $("#btn_modaladd").trigger("click");
+        },
+        error: function (e) {
+          alert("Error al agregar foto ");
 
 
-            }
+        }
 
-    });
+      });
 
-}
+    }
 
 
   </script>
 
-    <header>
-
-      <div class="navbar navbar-dark bg-dark box-shadow">
-        <div class="container d-flex justify-content-between">
-          <a href="#" class="navbar-brand d-flex align-items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-            <strong>InstaUami</strong>
-          </a>
-            
-    <div class="d-flex">
-    <span class="input-group-text" id="basic-addon1">@</span>
-      <input class="form-control me-2" type="search" placeholder="Busca un usuario" aria-label="Search">
-<a href="/logout"><button type="button" class="btn btn-primary">Cerrar Sesion</button></a>
-    </div>
-
-        </div>
-      </div>
-    </header>
-
-    <main role="main">
-
-      <section class="jumbotron text-center">
-        <div class="container">
-            <img width="200" height="200"  id="fotoUsuario" src=""/>
-          <h1 class="jumbotron-heading" id="nombre"></h1>
-          <p class="lead text-muted" id="des"></p>
-          <p>
-            <button type="button" class="btn btn-lg btn btn-dark" data-toggle="modal" data-target="#addModal">Agrega una nueva Foto</button>
-
-          </p>
-        </div>
-      </section>
-    <div class="album py-5 bg-light">
-
-    <div class="container">
-
-      <div id="contenido" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
-       
-      </div>
-    </div>
-  </div>
-
-
-    </main>
-
-    <footer class="text-muted">
-      <div class="container">
-        <p class="float-right">
-          <a href="#">Ir arriba</a>
-        </p>
-        <p>InstaUami &copy; 2021</p>
-        
-      </div>
-    </footer>
 
 
 
-    <!-- viewModal -->
-    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Titulo de la publicacion</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-        <figure class="figure">
-            <img src="..." class="img-fluid" alt="Responsive image"> 
-            <figcaption class="figure-caption">Descripción de la imagen</figcaption>
-         </figure>
-         <div>
-         	<a href="#">Ver mas fotos en esta ubicaión</a>
-         </div>
-         
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-danger">Eliminar Foto</button>
-        </div>
-        </div>
-    </div>
-    </div>
 
-    <!-- editModal -->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Edita la publicacion</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-             <div class="text-center">
-
-      <form class="form-signin" >
-
-      <input type="text" id="descripcionPost" class="form-control" placeholder="Descripción" required autofocus>
-
-      <input type="text" id="locacion" class="form-control" placeholder="Locacion" required autofocus>
+</body>
 
 
-</form>
-  </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary">Actualizar</button>
-        </div>
-        </div>
-    </div>
-    </div>
 
 
-        <!-- addModal -->
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Agrega un Post</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-
-  <div class="text-center">
-
-      <form class="form-signin" enctype="multipart/form-data">
-
-      <input type="text" id="descripcionPost" class="form-control" placeholder="Descripción" required autofocus>
-
-      <input type="text" id="locacion" class="form-control" placeholder="Locacion" required autofocus>
 
 
-</form>
-      <form method="POST" enctype="multipart/form-data" id="fileUploadForm" class="form-signin">
-            <h6>Selecciona una foto </h6>
-			<input type="file" class="form-control" name="file">
-		</form>
-
-  </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" onclick="addPost()">Agregar</button>
-        </div>
-        </div>
-    </div>
-    </div>
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    
-    <script src="assets/js/vendor/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="assets/js/vendor/holder.min.js"></script>
-  </body>
 </html>
